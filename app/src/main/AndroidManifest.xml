@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.diu.pointofsale">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activity.WellcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.SignInActivity">
+            <intent-filter>
+                <action android:name=".Activity.SignInActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.SignUpActivity">
+            <intent-filter>
+                <action android:name=".Activity.SignUpActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.AdminHomeActivity"
+            android:label="@string/title_activity_admin_home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name=".Activity.AdminHomeActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.UpdateUserActivity" />
+        <activity android:name=".Activity.ProfileActivity">
+            <intent-filter>
+                <action android:name=".Activity.ProfileActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.UserHomeActivity">
+            <intent-filter>
+                <action android:name=".Activity.UserHomeActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.ProductActivity">
+            <intent-filter>
+                <action android:name=".Activity.ProductActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.ReportActivity">
+            <intent-filter>
+                <action android:name=".Activity.ReportActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.SalesActivity">
+            <intent-filter>
+                <action android:name=".Activity.SalesActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
