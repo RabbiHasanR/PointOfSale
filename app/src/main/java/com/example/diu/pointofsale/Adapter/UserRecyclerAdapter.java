@@ -68,7 +68,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                                             case R.id.delete_menu:
                                                 Log.d("Positoin",String.valueOf(position));
                                                deleteUser(position);
-                                                Toast.makeText(context, "Delete User", Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(context, "Delete User", Toast.LENGTH_SHORT).show();
                                                 break;
                                             case R.id.update_menu:
                                                 Log.d("Positoin",String.valueOf(position));

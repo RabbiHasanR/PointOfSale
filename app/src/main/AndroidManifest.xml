@@ -76,6 +76,34 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.CustomerActivity">
+            <intent-filter>
+                <action android:name=".Activity.CustomerActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.StockActivity">
+            <intent-filter>
+                <action android:name=".Activity.StockActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.AddProductActivity">
+            <intent-filter>
+                <action android:name=".Activity.AddProductActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.ProductDetailActivity">
+            <intent-filter>
+                <action android:name=".Activity.ProductDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

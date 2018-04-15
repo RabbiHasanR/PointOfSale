@@ -17,7 +17,7 @@ import java.util.List;
 
 import static android.os.Build.ID;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper implements IDatabase{
     //INITIalize variable for database
     private static final String DATABASE_NAME = "pointOfSale.db";
     private static final String TABLE_USER = "user";
@@ -32,94 +32,105 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String USER_TABLE_COLUM_CREATED_TIME = "create_time";
     private static final String USER_TABLE_COLUM_UPDATE_TIME = "update_time";
 
-
-    private static final String TABLE_PRODUCT = "product";
-    private static final String PRODUCT_TABLE_COLUM_ID = "id";
-    private static final String PRODUCT_TABLE_COLUM_NAME = "name";
-    private static final String PRODUCT_TABLE_COLUM_DESCRIPTION = "description";
-    private static final String PRODUCT_TABLE_COLUM_BARCODE = "product_barcode";
-    private static final String PRODUCT_TABLE_COLUM_SELLING_PRICE = "selling_price";
-    private static final String PRODUCT_TABLE_COLUM_BUYING_PRICE = "buying_price";
-    private static final String PRODUCT_TABLE_COLUM_IMAGE = "image";
-    private static final String PRODUCT_TABLE_COLUM_CATAGORY = "catagory";
-    private static final String PRODUCT_TABLE_COLUM_SIZE = "size";
-    private static final String PRODUCT_TABLE_COLUM_USER_ID = "user_id";
-    private static final String PRODUCT_TABLE_COLUM_QUANTITY = "quantity";
-    private static final String PRODUCT_TABLE_COLUM_INSERT_TIME = "INSERT_TIME";
-    private static final String PRODUCT_TABLE_COLUM_UPDATE_TIME = "update_time";
-
-    private static final String TABLE_SHOPE = "shope";
-    private static final String SHOPE_TABLE_COLUM_ID = "id";
-    private static final String SHOPE_TABLE_COLUM_NAME = "shope_name";
-    private static final String SHOPE_TABLE_COLUM_EMAIL = "email";
-    private static final String SHOPE_TABLE_COLUM_PHONE = "phone";
-    private static final String SHOPE_TABLE_COLUM_ADDRESS = "address";
-    private static final String SHOPE_TABLE_COLUM_BANNERIMAGE = "banner_image";
-    private static final String SHOPE_TABLE_COLUM_CREATED_DATE = "created_date";
-    private static final String SHOPE_TABLE_COLUM_UPDATE_DATE = "update_date";
-    private static final String SHOPE_TABLE_COLUM_USER_ID = "shope_user_id";
-
-    private static final String TABLE_CUSTOMER = "customer";
-    private static final String CUSTOMER_TABLE_COLUM_ID = "id";
-    private static final String CUSTOMER_TABLE_COLUM_NAME = "name";
-    private static final String CUSTOMER_TABLE_COLUM_EMAIL = "email";
-    private static final String CUSTOMER_TABLE_COLUM_PHONE = "phone";
-    private static final String CUSTOMER_TABLE_COLUM_ADDRESS = "address";
-
-    /*private static final String TABLE_SALES="sales";
-    private static final String SALES_TABLE_COLUM_ID="id";
-    private static final String SALES_TABLE_COLUM_PRODUCT_ID="product_id";
-    private static final String SALES_TABLE_COLUM_USER_ID="user_id";
-    private static final String SALES_TABLE_COLUM_QUANTITY="quantity";
-    private static final String SALES_TABLE_COLUM_CUSTOMER_ID="customer_id";
-    private static final String SALES_TABLE_COLUM_SALES_DATE="sales_date";
-
-    private static final String TABLE_CART="cart";
-    private static final String CART_TABLE_COLUM_ID="id";
-    private static final String CART_TABLE_COLUM_PRODUCT_ID="product_id";
-    private static final String CART_TABLE_COLUM_USER_ID="user_id";
-    private static final String CART_TABLE_COLUM_CART_TIME="cart_time";
-    private static final String CART_TABLE_COLUM_QUANTITY="quantity";*/
-
     //create table query
     //private static final String CREATE_TABLE_USER = "create table " + TABLE_USER + "(" + USER_TABLE_COLUM_ID + "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'," + USER_TABLE_COLUM_NAME + "'TEXT'," + USER_TABLE_COLUM_EMAIL + "'TEXT NOT NULL'," + USER_TABLE_COLUM_PASSWORD + "'TEXT NOT NULL'," + USER_TABLE_COLUM_PHONE + "'TEXT NOT NULL'," + USER_TABLE_COLUM_GENDER + "'TEXT NOT NULL'," + USER_TABLE_COLUM_TYPE + "'TEXT NOT NULL'," + USER_TABLE_COLUM_PHOTO + "'BLOB'," + USER_TABLE_COLUM_CREATED_TIME + "'default (datetime(current_timestamp))'," + USER_TABLE_COLUM_UPDATE_TIME + "'datetime(current_timestamp)')";
     private static final String CREATE_TABLE_USER="CREATE TABLE " + TABLE_USER + "("
             + USER_TABLE_COLUM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + USER_TABLE_COLUM_NAME + " TEXT,"
             + USER_TABLE_COLUM_EMAIL + " TEXT,"+ USER_TABLE_COLUM_TYPE + " TEXT," + USER_TABLE_COLUM_GENDER + " TEXT,"+ USER_TABLE_COLUM_PHONE + " TEXT,"+ USER_TABLE_COLUM_PHOTO + " BLOB,"+ USER_TABLE_COLUM_CREATED_TIME + "INTEGER ,"+ USER_TABLE_COLUM_UPDATE_TIME+ "INTEGER ," + USER_TABLE_COLUM_PASSWORD + " TEXT" + ")";
-    private static final String CREATE_TABLE_PRODUCT = "create table " + TABLE_PRODUCT + "(" + PRODUCT_TABLE_COLUM_ID + "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'," + PRODUCT_TABLE_COLUM_NAME + "'TEXT NOT NULL'," + PRODUCT_TABLE_COLUM_DESCRIPTION + "'TEXT NOT NULL'," + PRODUCT_TABLE_COLUM_BARCODE + "'TEXT NOT NULL'," + PRODUCT_TABLE_COLUM_SELLING_PRICE + "'REAL NOT NULL'," + PRODUCT_TABLE_COLUM_BUYING_PRICE + "'REAL NOT NULL'," + PRODUCT_TABLE_COLUM_IMAGE + "'BLOB'," + PRODUCT_TABLE_COLUM_CATAGORY + "'TEXT NOT NULL'," + PRODUCT_TABLE_COLUM_SIZE + "'TEXT NOT NULL'," + PRODUCT_TABLE_COLUM_QUANTITY + "'INTEGER NOT NULL'," + PRODUCT_TABLE_COLUM_INSERT_TIME + "'default (datetime(current_timestamp))'," + PRODUCT_TABLE_COLUM_UPDATE_TIME + "'datetime(current_timestamp)'," + PRODUCT_TABLE_COLUM_USER_ID + "'INTEGER'," + " FOREIGN KEY (" + PRODUCT_TABLE_COLUM_USER_ID + ") REFERENCES " + TABLE_USER + " (" + USER_TABLE_COLUM_ID + "))";
-    private static final String CREATE_TABLE_SHOPE = "create table " + TABLE_SHOPE + "(" + SHOPE_TABLE_COLUM_ID + "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'," + SHOPE_TABLE_COLUM_NAME + "'TEXT NOT NULL'," + SHOPE_TABLE_COLUM_EMAIL + "'TEXT NOT NULL'," + SHOPE_TABLE_COLUM_PHONE + "'TEXT NOT NULL'," + SHOPE_TABLE_COLUM_ADDRESS + "'TEXT NOT NULL'," + SHOPE_TABLE_COLUM_BANNERIMAGE + "'BLOB'," + USER_TABLE_COLUM_TYPE + "'TEXT NOT NULL'," + SHOPE_TABLE_COLUM_CREATED_DATE + "'default (datetime(current_timestamp))'," + SHOPE_TABLE_COLUM_UPDATE_DATE + "'datetime(current_timestamp)'," + SHOPE_TABLE_COLUM_USER_ID + "'INTEGER'," + " FOREIGN KEY (" + SHOPE_TABLE_COLUM_USER_ID + ") REFERENCES " + TABLE_USER + " (" + USER_TABLE_COLUM_ID + "))";
-    private static final String CREATE_TABLE_CUSTOMER = "create table " + TABLE_CUSTOMER + "(" + CUSTOMER_TABLE_COLUM_ID + "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'," + CUSTOMER_TABLE_COLUM_NAME + "'TEXT NOT NULL'," + CUSTOMER_TABLE_COLUM_EMAIL + "'TEXT NOT NULL'," + CUSTOMER_TABLE_COLUM_PHONE + "'TEXT NOT NULL'," + CUSTOMER_TABLE_COLUM_ADDRESS + "'TEXT NOT NULL')";
-    //private static final String CREATE_TABLE_SALES="create table "+TABLE_SALES+"(" +SALES_TABLE_COLUM_ID+ "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL',"+SALES_TABLE_COLUM_QUANTITY+"'INTEGER NOT NULL',"+SALES_TABLE_COLUM_SALES_DATE+"'datetime()',"+SALES_TABLE_COLUM_USER_ID+"'INTEGER',"+ " FOREIGN KEY ("+SALES_TABLE_COLUM_USER_ID+") REFERENCES "+TABLE_USER+" ("+USER_TABLE_COLUM_ID+"),"+SALES_TABLE_COLUM_PRODUCT_ID+"'INTEGER',"+ " FOREIGN KEY ("+SALES_TABLE_COLUM_PRODUCT_ID+") REFERENCES "+TABLE_PRODUCT+" ("+PRODUCT_TABLE_COLUM_USER_ID+"),"+SALES_TABLE_COLUM_CUSTOMER_ID+"'INTEGER',"+ " FOREIGN KEY ("+SALES_TABLE_COLUM_CUSTOMER_ID+") REFERENCES "+TABLE_CUSTOMER+" ("+CUSTOMER_TABLE_COLUM_ID+"))";
-    //private static final String CREATE_TABLE_CART="create table "+TABLE_CART+"(" +CART_TABLE_COLUM_ID+ "'INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL',"+CART_TABLE_COLUM_QUANTITY+"'INTEGER NOT NULL',"+CART_TABLE_COLUM_CART_TIME+"'datetime()',"+CART_TABLE_COLUM_USER_ID+"'INTEGER',"+ " FOREIGN KEY ("+CART_TABLE_COLUM_USER_ID+") REFERENCES "+TABLE_USER+" ("+USER_TABLE_COLUM_ID+"),"+CART_TABLE_COLUM_PRODUCT_ID+"'INTEGER',"+ " FOREIGN KEY ("+CART_TABLE_COLUM_PRODUCT_ID+") REFERENCES "+TABLE_PRODUCT+" ("+PRODUCT_TABLE_COLUM_USER_ID+"))";
 
 
-    private SQLiteDatabase db;
+
+    private SQLiteDatabase database;
     private ContentValues values;
     private User user;
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
-        db = this.getWritableDatabase();
+        super(context, DatabaseContents.DATABASE.toString(), null, 2);
+        database = this.getWritableDatabase();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase database) {
         //execute query
-        db.execSQL(CREATE_TABLE_USER);
-        db.execSQL(CREATE_TABLE_PRODUCT);
-        db.execSQL(CREATE_TABLE_SHOPE);
-        db.execSQL(CREATE_TABLE_CUSTOMER);
-        //db.execSQL(CREATE_TABLE_SALES);
-        //db.execSQL(CREATE_TABLE_CART);
+        database.execSQL(CREATE_TABLE_USER);
+        /*database.execSQL("CREATE TABLE " + DatabaseContents.TABLE_USER + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "user_name TEXT(100),"
+                + "email TEXT(100),"
+                + "password TEXT(100),"
+                + "phone TEXT(100),"
+                + "gender TEXT(100),"
+                + "type TEXT(100)"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_PRODUCT_CATALOG + " Successfully.");*/
+        database.execSQL("CREATE TABLE " + DatabaseContents.TABLE_PRODUCT_CATALOG + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "name TEXT(100),"
+                + "barcode TEXT(100),"
+                + "unit_price DOUBLE,"
+                + "status TEXT(10)"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_PRODUCT_CATALOG + " Successfully.");
+
+        database.execSQL("CREATE TABLE "+ DatabaseContents.TABLE_STOCK + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "product_id INTEGER,"
+                + "quantity INTEGER,"
+                + "cost DOUBLE,"
+                + "date_added DATETIME"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_STOCK + " Successfully.");
+
+        database.execSQL("CREATE TABLE "+ DatabaseContents.TABLE_SALE + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "status TEXT(40),"
+                + "payment TEXT(50),"
+                + "total DOUBLE,"
+                + "start_time DATETIME,"
+                + "end_time DATETIME,"
+                + "orders INTEGER"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_SALE + " Successfully.");
+
+        database.execSQL("CREATE TABLE "+ DatabaseContents.TABLE_SALE_LINEITEM + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "sale_id INTEGER,"
+                + "product_id INTEGER,"
+                + "quantity INTEGER,"
+                + "unit_price DOUBLE"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_SALE_LINEITEM + " Successfully.");
+
+
+        // this _id is product_id but for update method, it is easier to use name _id
+        database.execSQL("CREATE TABLE " + DatabaseContents.TABLE_STOCK_SUM + "("
+
+                + "_id INTEGER PRIMARY KEY,"
+                + "quantity INTEGER"
+
+                + ");");
+        Log.d("CREATE DATABASE", "Create " + DatabaseContents.TABLE_STOCK_SUM + " Successfully.");
+
+        Log.d("CREATE DATABASE", "Create Database Successfully.");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // on upgrade drop older tables
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOPE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUSTOMER);
+       // db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCT);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOPE);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUSTOMER);
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_SALES);
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
 
@@ -132,7 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertUserInfo(User user) {
         long a = 0;
         try {
-            db = this.getReadableDatabase();
+            database = this.getReadableDatabase();
              values = new ContentValues();
             values.put(USER_TABLE_COLUM_NAME, user.getUserName());
             values.put(USER_TABLE_COLUM_EMAIL, user.getEmail());
@@ -141,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(USER_TABLE_COLUM_GENDER, user.getGender());
             values.put(USER_TABLE_COLUM_TYPE, user.getType());
             values.put(USER_TABLE_COLUM_CREATED_TIME,System.currentTimeMillis());
-            a = db.insert(TABLE_USER, null, values);
+            a = database.insert(TABLE_USER, null, values);
 
         } catch (SQLException exception) {
             Log.d("UserInfo Insert:", exception.toString());
@@ -305,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param user
      */
     public void updateUser(User user) {
-         db = this.getWritableDatabase();
+         database = this.getWritableDatabase();
 
          values = new ContentValues();
         values.put(USER_TABLE_COLUM_NAME, user.getUserName());
@@ -317,9 +328,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_TABLE_COLUM_UPDATE_TIME,System.currentTimeMillis());
 
         // updating row
-        db.update(TABLE_USER, values, USER_TABLE_COLUM_ID+ " = ?",
+        database.update(TABLE_USER, values, USER_TABLE_COLUM_ID+ " = ?",
                 new String[]{String.valueOf(user.getUserId())});
-        db.close();
+        database.close();
     }
     /**
      * fetch specific raw using id from sqlite database and get data
@@ -330,14 +341,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM user WHERE email='"+email+"'";
         Cursor res =  db.rawQuery( query,null );
 
-        if(res != null && res.moveToFirst()) {
-            user.setUserName(res.getString(res.getColumnIndex(USER_TABLE_COLUM_NAME)));
+        if(res != null ) {
+            /*user.setUserName(res.getString(res.getColumnIndex(USER_TABLE_COLUM_NAME)));
             user.setPhone(res.getString(res.getColumnIndex(USER_TABLE_COLUM_PHONE)));
             user.setEmail(res.getString(res.getColumnIndex(USER_TABLE_COLUM_EMAIL)));
             user.setGender(res.getString(res.getColumnIndex(USER_TABLE_COLUM_GENDER)));
             user.setType(res.getString(res.getColumnIndex(USER_TABLE_COLUM_TYPE)));
-            user.setPhoto(res.getBlob(res.getColumnIndex(USER_TABLE_COLUM_PHOTO)));
-            return res;
+            user.setPhoto(res.getBlob(res.getColumnIndex(USER_TABLE_COLUM_PHOTO)));*/
+            res.moveToFirst();
         }
         return res;
 
@@ -348,9 +359,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      */
     public boolean deleteUse(String email){
-         db = getWritableDatabase();
-         db.delete(TABLE_USER, USER_TABLE_COLUM_EMAIL + "=?"  ,new  String[]{String.valueOf(email)});
-         db.close();
+         database = getWritableDatabase();
+         database.delete(TABLE_USER, USER_TABLE_COLUM_EMAIL + "=?"  ,new  String[]{String.valueOf(email)});
+         database.close();
         return true;
     }
 
@@ -358,13 +369,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * this method insert image
      */
      public long insertImage(String email,User user){
-         db = getWritableDatabase();
+         database = getWritableDatabase();
          long id=0;
          try{
              values=new ContentValues();
              values.put(USER_TABLE_COLUM_PHOTO,user.getPhoto());
              String[] selectionArgs={String.valueOf(email)};
-             id=db.update(TABLE_USER,values,USER_TABLE_COLUM_EMAIL +"=?",selectionArgs);
+             id=database.update(TABLE_USER,values,USER_TABLE_COLUM_EMAIL +"=?",selectionArgs);
          }
          catch (SQLException exception){
              Log.d("UserInfo Insert:", exception.toString());
@@ -373,5 +384,96 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          return id;
 
      }
+
+
+    /**
+     * product inser,update,select,execute
+     */
+
+    @Override
+    public List<Object> select(String queryString) {
+        try {
+            database = this.getWritableDatabase();
+            List<Object> list = new ArrayList<Object>();
+            Cursor cursor = database.rawQuery(queryString, null);
+
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        ContentValues content = new ContentValues();
+                        String[] columnNames = cursor.getColumnNames();
+                        for (String columnName : columnNames) {
+                            content.put(columnName, cursor.getString(cursor
+                                    .getColumnIndex(columnName)));
+                        }
+                        list.add(content);
+                    } while (cursor.moveToNext());
+                }
+            }
+            cursor.close();
+            database.close();
+            return list;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public int insert(String tableName, Object content) {
+        try {
+             database = this.getWritableDatabase();
+            int id = (int) database.insert(tableName, null,
+                    (ContentValues) content);
+            database.close();
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+
+    @Override
+    public boolean update(String tableName, Object content) {
+        try {
+             database = this.getWritableDatabase();
+            ContentValues cont = (ContentValues) content;
+            // this array will always contains only one element.
+            String[] array = new String[]{cont.get("_id")+""};
+            database.update(tableName, cont, " _id = ?", array);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(String tableName, int id) {
+        try {
+             database = this.getWritableDatabase();
+            database.delete(tableName, " _id = ?", new String[]{id+""});
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean execute(String query) {
+        try{
+             database = this.getWritableDatabase();
+            database.execSQL(query);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

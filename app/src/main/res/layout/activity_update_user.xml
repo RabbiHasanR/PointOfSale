@@ -110,7 +110,7 @@
             android:layout_marginBottom="10dp"
             />
     </android.support.design.widget.TextInputLayout>
-    <android.support.v7.widget.AppCompatSpinner
+    <!--<android.support.v7.widget.AppCompatSpinner
         android:id="@+id/gender_spinnerUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/colorBackground"
-        />
+        />-->
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

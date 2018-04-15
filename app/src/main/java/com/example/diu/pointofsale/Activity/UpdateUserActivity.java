@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,8 +24,9 @@ import com.example.diu.pointofsale.Validation.InputValidation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateUserActivity extends AppCompatActivity {
+public class UpdateUserActivity extends AppCompatActivity implements View.OnClickListener {
    // private List<CharSequence> options;
+   private final AppCompatActivity activity =UpdateUserActivity.this;
     private NestedScrollView nestedScrollView;
     private TextInputLayout layoutForName,layoutForEmail,layoutForPassword,layoutForPhone;
     private TextInputEditText userName,userEamil,userPassword,userPhone;
@@ -34,6 +36,7 @@ public class UpdateUserActivity extends AppCompatActivity {
     private User user;
     private DatabaseHelper myDb;
     private InputValidation inputValidation;
+    private AppCompatButton update,showUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class UpdateUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_user);
         initViews();
         initObject();
+        initListeners();
     }
 
     /**
@@ -56,30 +60,44 @@ public class UpdateUserActivity extends AppCompatActivity {
         userEamil=(TextInputEditText)findViewById(R.id.updateEmail);
         userPassword=(TextInputEditText)findViewById(R.id.userUpdatePassword);
         userPhone=(TextInputEditText)findViewById(R.id.userUpdatePhone);
-        genderSpinner=(AppCompatSpinner) findViewById(R.id.gender_spinnerUpdate);
-        typeSpinner=(AppCompatSpinner) findViewById(R.id.userType_spinnerUpdate);
-        setGenderSpinnerValue();
-        setUserTypeSpinnerValue();
+        //genderSpinner=(AppCompatSpinner) findViewById(R.id.gender_spinnerUpdate);
+        //typeSpinner=(AppCompatSpinner) findViewById(R.id.userType_spinnerUpdate);
+        update=(AppCompatButton)findViewById(R.id.update);
+        showUpdate=(AppCompatButton)findViewById(R.id.showUpdate);
+        //setGenderSpinnerValue();
+        //setUserTypeSpinnerValue();
+    }
+
+    /**
+     * This method is to initialize listeners
+     */
+    private void initListeners() {
+        update.setOnClickListener(this);
+        showUpdate.setOnClickListener(this);
+
     }
 
     /**
      * initilaize object
      */
     public void initObject(){
+        user=new User();
+        inputValidation=new InputValidation(this);
+        myDb=new DatabaseHelper(this);
         intent = getIntent();
          name=getIntent().getStringExtra("name");
          email=getIntent().getStringExtra("email");
          password=getIntent().getStringExtra("password");
          phone=getIntent().getStringExtra("phone");
-         gender=getIntent().getStringExtra("gender");
-         type=getIntent().getStringExtra("type");
+         //gender=getIntent().getStringExtra("gender");
+         //type=getIntent().getStringExtra("type");
         Toast.makeText(this, name+email+password+phone+gender+type, Toast.LENGTH_LONG).show();
 
          setData();
 
     }
     //setUserTypeSpinnerValue
-    private void setUserTypeSpinnerValue() {
+    /*private void setUserTypeSpinnerValue() {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
@@ -136,6 +154,24 @@ public class UpdateUserActivity extends AppCompatActivity {
                     }
                 }
         );
+    }*/
+    /**
+     * This implemented method is to listen the click on view
+     *
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.update:
+                postUpdateDataToSQLite();
+                break;
+
+            case R.id.showUpdate:
+                showUpdate();
+                break;
+        }
     }
 
     //retrive data from sqlite and set on editText
@@ -170,14 +206,14 @@ public class UpdateUserActivity extends AppCompatActivity {
             return;
         }
 
-        if (!myDb.checkUser(userEamil.getText().toString().trim())) {
+        if (myDb.checkUser(userEamil.getText().toString().trim())) {
 
             user.setUserName(userName.getText().toString());
             user.setEmail(userEamil.getText().toString());
             user.setPassword(userPassword.getText().toString());
             user.setPhone(userPhone.getText().toString());
-            user.setGender(gender);
-            user.setType(type);
+           // user.setGender(gender);
+            //user.setType(type);
 
 
 
@@ -194,6 +230,17 @@ public class UpdateUserActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    //show update
+    public void showUpdate(){
+        Cursor cursor=myDb.getData(email);
+        if(cursor !=null){
+            userName.setText(user.getUserName());
+            userEamil.setText(user.getEmail());
+            userPassword.setText(user.getPassword());
+            userPhone.setText(user.getPhone());
+        }
     }
 
     private void emptyInputEditText() {
